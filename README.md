@@ -1,2 +1,4 @@
-# rohit_repo
+# Tech stack used
 TECH TASK
+react.js
+node.js
