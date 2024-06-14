@@ -27,15 +27,15 @@
 
 
 .logout {
-    margin-bottom: 0px;
     justify-content: center;
-    font-size: 18px;
-    border-radius: 50px;
-    font-weight: 600;
+    border-radius: 10px;
+    font-weight: 300;
     padding: 7px 6px;
     background-color: rgba(185, 188, 194, 0.7);
     box-shadow: 0 0 8px 0 rgba(7, 46, 129, 0.25);
 }
+
+
 
 
 .Signup {

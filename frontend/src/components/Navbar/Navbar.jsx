@@ -11,6 +11,7 @@ export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);//usestate to track menu button is opening and closing
 
     const auth = localStorage.getItem('user');
+
     const navigate = useNavigate();
 
     const logout =()=>{
@@ -51,7 +52,7 @@ export const Navbar = () => {
             <li>
             <a> <Link to='/Blog'>Blog</Link></a>
             </li>
-            <button  className={styles.logout}><Link onClick={logout} to='/Signup' >Logout</Link></button> 
+            <button  className={styles.logout}><Link onClick={logout} to='/Signup' >Logout ({JSON.parse(auth).name})</Link></button> 
             </ul>
             :
             <button  className={styles.Signup}><Link to ='/Signup'>Signup</Link></button>} 

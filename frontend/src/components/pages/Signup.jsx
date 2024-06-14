@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { supabase } from '../../client';
 import { Link, useNavigate } from 'react-router-dom';
 import  styles from "./Login.module.css";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
@@ -10,13 +9,13 @@ const Signup = () => {
   const navigate = useNavigate();
 
 
+     //so useEffect with the help of useNavigate() hook rerenders the page and when auth is their, it does not allow to redirect at login page.
   useEffect(() =>{
     const auth= localStorage.getItem('user');
     if(auth){
-     navigate('/')
+     navigate('/');
     }
   })
-
 
 
   const [ showPassword, setShowPassword] = useState(true);
@@ -54,80 +53,10 @@ const Signup = () => {
       alert (error)
       
     }
-    // if(result){
-    //   navigate('/');
-    // }
-
-    // console.warn(name,email,password);
-    // let result = await fetch('http://localhost:5000/register',{
-    //   method:'post',
-    //   body: JSON.stringify({name,email,password}),
-    //   headers:{
-    //     'content-Type':'application/json'
-    //   },
-    // });
-    // result = await result.json()
-    // console.warn(result);
-    // localStorage.setItem("user",JSON.stringify(result));
-
-  
-    // if(result){
-    //   navigate('/');
-    // }
 
   }
 
 
-  // function handleChange(event){
-  //   setFormData((prevFormData)=>{
-  //     return{
-  //       ...prevFormData,
-  //       [event.target.name]:event.target.value
-  //     }
-  //   })
-
-  // }
-
-  // async function handleSubmit(e){
-  //   e.preventDefault()
-
-  //   try {
-  //     const { data, error } = await supabase.auth.signUp(
-  //       {
-  //         email: formData.email,
-  //         password: formData.password,
-  //         options: {
-  //         data: {
-  //           full_name: formData.fullName
-  //             }
-  //           } 
-  //         }
-  //       )
-  //       if(error) throw error
-  //       alert('Check your email for verification link')
-      
-  //   } catch (error) {
-  //     alert(error)
-      
-  //   }
-  // }
-
-
-
-  // async function submit(e){
-  //   e.preventDefault();
-
-  //   try {
-
-  //   await axios.post('http://localhost:5000/register',
-  //     email,password,name
-  //   )
-      
-  //   } catch (e) {
-  //     console.log(e);
-      
-  //   }
-  // }
 
 
   return (
@@ -135,8 +64,7 @@ const Signup = () => {
 
       <div className={styles.formBoxSignup}>
 
-      {/* <form onSubmit={handleSubmit}> */}
-      <form action='POST'>
+      <form >
 
         <h1>Sign Up</h1>
 
