@@ -10,6 +10,15 @@ const Signup = () => {
   const navigate = useNavigate();
 
 
+  useEffect(() =>{
+    const auth= localStorage.getItem('user');
+    if(auth){
+     navigate('/')
+    }
+  })
+
+
+
   const [ showPassword, setShowPassword] = useState(true);
 
   const handleShowPassword = () => {
@@ -22,9 +31,12 @@ const Signup = () => {
   const [email, setEmail] = useState();
     
 
-  const collectData = async () =>{
-    console.warn(name,email,password);
-    let result = await fetch('http://localhost:5000/register',{
+  async function collectData (e){
+    e.preventDefault()
+
+    try {
+      console.log(name,email,password);
+        let result = await fetch('http://localhost:5000/register',{
       method:'post',
       body: JSON.stringify({name,email,password}),
       headers:{
@@ -32,19 +44,90 @@ const Signup = () => {
       },
     });
     result = await result.json()
-    console.warn(result);
+    console.log(result);
     localStorage.setItem("user",JSON.stringify(result));
-    navigate('/Home')
+    if(result){
+      navigate('/');
+    }
+      
+    } catch (error) {
+      alert (error)
+      
+    }
+    // if(result){
+    //   navigate('/');
+    // }
+
+    // console.warn(name,email,password);
+    // let result = await fetch('http://localhost:5000/register',{
+    //   method:'post',
+    //   body: JSON.stringify({name,email,password}),
+    //   headers:{
+    //     'content-Type':'application/json'
+    //   },
+    // });
+    // result = await result.json()
+    // console.warn(result);
+    // localStorage.setItem("user",JSON.stringify(result));
+
+  
+    // if(result){
+    //   navigate('/');
+    // }
+
   }
 
 
-//   useEffect(() =>{
-//     console.warn(result);
-//     localStorage.setItem("user",JSON.stringify(result));
-//     navigate('/Home');
-//     },[result]);
+  // function handleChange(event){
+  //   setFormData((prevFormData)=>{
+  //     return{
+  //       ...prevFormData,
+  //       [event.target.name]:event.target.value
+  //     }
+  //   })
+
+  // }
+
+  // async function handleSubmit(e){
+  //   e.preventDefault()
+
+  //   try {
+  //     const { data, error } = await supabase.auth.signUp(
+  //       {
+  //         email: formData.email,
+  //         password: formData.password,
+  //         options: {
+  //         data: {
+  //           full_name: formData.fullName
+  //             }
+  //           } 
+  //         }
+  //       )
+  //       if(error) throw error
+  //       alert('Check your email for verification link')
+      
+  //   } catch (error) {
+  //     alert(error)
+      
+  //   }
+  // }
 
 
+
+  // async function submit(e){
+  //   e.preventDefault();
+
+  //   try {
+
+  //   await axios.post('http://localhost:5000/register',
+  //     email,password,name
+  //   )
+      
+  //   } catch (e) {
+  //     console.log(e);
+      
+  //   }
+  // }
 
 
   return (
@@ -52,7 +135,8 @@ const Signup = () => {
 
       <div className={styles.formBoxSignup}>
 
-      <form >
+      {/* <form onSubmit={handleSubmit}> */}
+      <form action='POST'>
 
         <h1>Sign Up</h1>
 
@@ -95,7 +179,7 @@ const Signup = () => {
        <button onClick={collectData} >Sign Up</button>
 
        <div className={styles.registerLink}>
-      <p> Already have an account? <Link to='/'>Login</Link></p>
+      <p> Already have an account? <Link to='/Login'>Login</Link></p>
       </div>
 
       </form>

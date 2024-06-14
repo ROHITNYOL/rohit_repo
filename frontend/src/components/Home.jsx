@@ -19,4 +19,4 @@ const Home = ({token}) => {
   )
 }
 
-export default Home
+export default Home;

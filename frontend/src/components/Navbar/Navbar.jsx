@@ -1,27 +1,38 @@
-import React , {useState} from 'react';
+import React , {useEffect, useState} from 'react';
 
 import styles from "./Navbar.module.css";
 import { getImageUrl } from "../../utils";
 import { IoMenu } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate} from 'react-router-dom';
 
 
 
 export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);//usestate to track menu button is opening and closing
 
+    const auth = localStorage.getItem('user');
+    const navigate = useNavigate();
+
+    const logout =()=>{
+      localStorage.clear();
+      navigate('/Signup');
+    }
+
+
+
+
 
   return (
     <nav className={styles.navbar}>
-    <a className={styles.title} href="/">CalMeet</a>
+    <a className={styles.title} >CalMeet</a>
     <div className={styles.menu}>
         {/* <img className={styles.menuBtn} src={menuOpen ? getImageUrl("nav/closeIcon.png") : getImageUrl("nav/menuIcon.png")} alt="menu-button"
         onClick={() => setMenuOpen(!menuOpen)}/>  */}
         {/* <img className={styles.menuBtn} src={menuOpen ? <IoMenu /> : ""} alt="mb"//menu-button
         onClick={() => setMenuOpen(!menuOpen)}/>  */}
-        <ul className={`${styles.menuItems} ${menuOpen && styles.menuOpen}`}
-        //onclick menustyles will be implemented
-        onClick={() => setMenuOpen(false)}>
+        {/* onClick={() => setMenuOpen(false)} */}
+          {auth ?
+          <ul className={`${styles.menuItems} ${menuOpen && styles.menuOpen}`}>
             <li>
             <p><Link to='/Pricing'>Pricing</Link></p>
             </li>
@@ -40,7 +51,11 @@ export const Navbar = () => {
             <li>
             <a> <Link to='/Blog'>Blog</Link></a>
             </li>
-        </ul>
+            <button  className={styles.logout}><Link onClick={logout} to='/Signup' >Logout</Link></button> 
+            </ul>
+            :
+            <button  className={styles.Signup}><Link to ='/Signup'>Signup</Link></button>} 
+        
     </div>
     </nav>
   )
