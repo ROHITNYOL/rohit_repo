@@ -1,0 +1,136 @@
+@import "../../vars.css";
+
+.aboutUs {
+    margin-left:120px;
+    margin-right: 120px;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    justify-content: space-between;
+    width: 90%;
+    z-index: 1;
+}
+/* 
+.aboutUs h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    margin-left: 200px;
+    font-weight: 900;
+    align-items: center;
+} */
+
+.aboutUsRight h2{
+    margin-left: 45px;
+}
+
+.aboutUsRightItem h2{
+    font-size: 44px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-left: 150px;
+}
+
+.aboutUs h4 {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    align-items: center;
+    margin-left: 100px;
+    color: var(--color-text);
+}
+
+
+.aboutUsRight p {
+    font-size: 22px;
+    /* font-weight: 500; */
+    align-items: center;
+    margin-left: 25px;
+    margin-bottom: 0px;
+}
+
+.aboutUsLeft {
+    flex-basis: 40%;
+
+}
+
+
+.aboutUsRightItem {
+    flex-basis: 56%;
+}
+
+.aboutUsImage {
+    width: 400px;
+    border-radius: 30px;
+}
+
+.aboutUsRightItem {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    border-radius: 20px;
+    padding-right: 0;
+    padding: 25px;
+    background-image: linear-gradient(90deg, rgba(165, 215, 232, 0.42) 0%, rgba(255, 255, 255, 0) 100%);
+    background-size: 0 100%;
+    background-repeat: no-repeat;
+    transition: 0.4s;
+}
+
+.aboutUsRightItem:hover {
+    background-size: 100% 100%;
+}
+
+
+.aboutUsRight h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--color-text);
+    }
+
+
+@media  screen and (max-width: 830px) {
+    .aboutUs {
+    width: 70%;
+    flex-direction: column;
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;    
+}
+
+.aboutUsImage { 
+    width: 900;
+    padding-left: 0px;
+    padding-right: 20px;
+    margin-right: 10px;
+}
+
+/* .aboutUsRight {
+    padding-left: 0;
+    border-radius: 20px;
+    padding-right: 0;
+    padding: 25px;
+    background-image: linear-gradient(90deg, rgba(165, 215, 232, 0.42) 0%, rgba(255, 255, 255, 0) 100%);
+    background-size: 0 100%;
+    background-repeat: no-repeat;
+    transition: 0.4s;
+}
+
+.aboutUsRight:hover {
+    background-size: 100% 100%;
+} */
+
+.aboutItem:hover {
+    background-size: 100% 100%;
+}
+.aboutUsRight h2 {
+    font-size: 30px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+
+.aboutUsRight p {
+    font-size: 25px;
+}
+
+}

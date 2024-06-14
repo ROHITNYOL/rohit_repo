@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", sans-serif;
+  /* font-family: "Outfit, Arial, Helventica, sans-serif"; */
+}
+
+/* 
+Login and signup pages  */
+body {
+  font-family: "Outfit", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('./assets/backgroundframe.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+

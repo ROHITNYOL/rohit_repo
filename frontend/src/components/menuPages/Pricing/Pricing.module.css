@@ -1,0 +1,138 @@
+@import "../../../vars.css";
+
+.container {
+    margin: 0;
+    margin-left: 0;
+    padding: 60px;
+    min-height: 100vh;
+    background-color: #f7f8fc;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.card {
+    width: 400px;
+    margin: 20px;
+    /* display: flex; */
+    background-color: #ffffff;
+    border: 1px solid purple;
+    border-radius: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 40px 50px;
+    background-color: #bfc8ee;
+    border-radius: 30px 30px 0 0;
+
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 40px 50px;
+    background-color: #bfc8ee;
+    border-radius: 10px 10px 0 0;
+}
+
+.head h2 {
+    font-size: 50px;
+    font-weight: 400;
+    margin-left: 100px;
+}
+
+.head p {
+    font-size: 30px;
+}
+
+
+.license {
+    display: block;
+    color: #10182f;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+    margin-bottom: 25px;
+    text-decoration: underline;
+}
+
+.header h2 {
+    color: #10182f;
+    font-size: 45px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.duration {
+    display: block;
+    font-size: 20px;
+    line-height: 35px;
+    margin-bottom: 20px;
+}
+
+.duration p {
+    align-items: center;
+    display: block;
+    font-size: 20px;
+    line-height: 35px;
+}
+
+.button {
+    padding: 12px 36px;
+    color: #ffffff;
+    background-color: #10182f;
+    border-radius: 7px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-top: 30px;
+}
+
+.button:hover {
+    background-color: gray;
+}
+
+.features {
+    padding: 30px 70px 40px;
+}
+
+.features li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.features li a {
+    margin-left: 7px;
+}
+
+
+ 
+.features li:last-child {
+    margin-bottom: 0px;
+}
+
+@media screen and (max-width: 830px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%;
+        margin: 40px;
+    }
+    
+    .features {
+        padding: 30px 50px 40px;
+    }
+}
