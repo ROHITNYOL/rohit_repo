@@ -3,19 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import  styles from "./Login.module.css";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
+import axios from 'axios';
 
 const Signup = () => {
 
   const navigate = useNavigate();
-
-
-     //so useEffect with the help of useNavigate() hook rerenders the page and when auth is their, it does not allow to redirect at login page.
-  useEffect(() =>{
-    const auth= localStorage.getItem('user');
-    if(auth){
-     navigate('/');
-    }
-  })
 
 
   const [ showPassword, setShowPassword] = useState(true);
@@ -25,38 +17,35 @@ const Signup = () => {
   };
 
 
-  const [name, setName] = useState();
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
+
+  const[input, setInput] = useState({
+    name:'',
+    email:'',
+    password:''
+    })
+
+
+    const sendRequest = async() => {
+      const res = await axios.post('http://localhost:5000/api/signup', {
+        name: input.name,
+        email: input.email,
+        password: input.password
+      }).catch(err => console.log(err));
+
+      const data = await res.data;
+      return data;
+    };
+
+
+  const signInUser = (e) => {
+    e.preventDefault();
+    // send http request
+    sendRequest().then(() => navigate('/Login'));
+  }
     
 
-  async function collectData (e){
-    e.preventDefault()
 
-    try {
-      console.log(name,email,password);
-        let result = await fetch('http://localhost:5000/register',{
-      method:'post',
-      body: JSON.stringify({name,email,password}),
-      headers:{
-        'content-Type':'application/json'
-      },
-    });
-    result = await result.json()
-    console.log(result);
-    localStorage.setItem("user",JSON.stringify(result));
-    if(result){
-      navigate('/');
-    }
-      
-    } catch (error) {
-      alert (error)
-      
-    }
-
-  }
-
-
+   
 
 
   return (
@@ -64,31 +53,32 @@ const Signup = () => {
 
       <div className={styles.formBoxSignup}>
 
-      <form >
+      <form onSubmit={signInUser}>
 
         <h1>Sign Up</h1>
 
         <div className={styles.inputBox}>
         <input 
-        type='text'  placeholder='Fullname'  
-        value={name || ""}  onChange={(e)=>setName(e.target.value)}
+        type='text'  placeholder='Fullname'  value={input.name} onChange={(e) => setInput({...input,name:e.target.value})}   
         />
         <FaUser className={styles.icon}/>
         </div>
 
+
+
         <div className={styles.inputBox}>
         <input 
-        type='text'   placeholder='Email'
-        value={email || ""}  onChange={(e)=>setEmail(e.target.value)}
+        type='text'   placeholder='Email'   value={input.email} onChange={(e) => setInput({...input,email:e.target.value})} 
         />
         <FaEnvelope className={styles.icon}/>
         </div>
 
+
+
         <div className={styles.inputBox}>
         <input 
-        type={showPassword ? 'password' :'text'}  placeholder='Password'
-        value={password || ""}  onChange={(e)=>setPassword(e.target.value)}
-       />
+        type={showPassword ? 'password' :'text'}  placeholder='Password'  value={input.password} onChange={(e) => setInput({...input,password:e.target.value})} 
+         />
         <div className={styles.iconWrapper}>
         {showPassword ? (
           <BsEyeSlash onClick={handleShowPassword} />
@@ -104,7 +94,7 @@ const Signup = () => {
         <label><input type='checkbox'/>I agree to the terms and conditions</label>
        </div>
 
-       <button onClick={collectData} >Sign Up</button>
+       <button type='submit' >Sign Up</button>
 
        <div className={styles.registerLink}>
       <p> Already have an account? <Link to='/Login'>Login</Link></p>

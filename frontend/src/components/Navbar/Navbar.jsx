@@ -5,19 +5,40 @@ import { getImageUrl } from "../../utils";
 import { IoMenu } from "react-icons/io5";
 import { Link, Navigate, useNavigate} from 'react-router-dom';
 
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../store/store';
+axios.defaults.withCredentials = true;
+
+let firstRender = true;
+
 
 
 export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);//usestate to track menu button is opening and closing
 
-    const auth = localStorage.getItem('user');
 
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const logout =()=>{
-      localStorage.clear();
-      navigate('/Signup');
-    }
+  
+    const isLoggedIn = useSelector(state => state.isLoggedIn);
+
+
+    const sendLogoutReq = async() => {
+      const res = await axios.post('http://localhost:5000/api/logout', null, {
+        withCredentials: true
+      });
+      if(res.status == 200){
+        return res
+      }
+      return new Error("Unable to Logout. Please try again")
+    };
+
+
+    const logoutUser = () => {
+      sendLogoutReq().then(() => dispatch(authActions.logout()));
+    };
+
 
 
 
@@ -32,7 +53,9 @@ export const Navbar = () => {
         {/* <img className={styles.menuBtn} src={menuOpen ? <IoMenu /> : ""} alt="mb"//menu-button
         onClick={() => setMenuOpen(!menuOpen)}/>  */}
         {/* onClick={() => setMenuOpen(false)} */}
-          {auth ?
+        
+          {/* {user ? */}
+          {isLoggedIn ?
           <ul className={`${styles.menuItems} ${menuOpen && styles.menuOpen}`}>
             <li>
             <p><Link to='/Pricing'>Pricing</Link></p>
@@ -52,7 +75,7 @@ export const Navbar = () => {
             <li>
             <a> <Link to='/Blog'>Blog</Link></a>
             </li>
-            <button  className={styles.logout}><Link onClick={logout} to='/Signup' >Logout ({JSON.parse(auth).name})</Link></button> 
+            <button onClick={logoutUser} className={styles.logout}><Link to='/Signup' >Logout</Link></button> 
             </ul>
             :
             <button  className={styles.Signup}><Link to ='/Signup'>Signup</Link></button>} 

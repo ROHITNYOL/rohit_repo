@@ -1,71 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import  styles from "./Login.module.css";
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../store/store';
+
+
 
 
 const Login = () => {
   
-  const navigate = useNavigate()
+  let navigate = useNavigate()
 // navigate to home using react-router-dom
 
-  const [ showPassword, setShowPassword] = useState(false);
+  const [ showPassword, setShowPassword] = useState(true);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
 
-    //so useEffect with the help of useNavigate() hook rerenders the page and when auth is their, it does not allow to redirect at login page.
-  useEffect(() =>{ 
-    const auth= localStorage.getItem('user');
-    if(auth){
-     navigate('/');
-    }
-  })
+
+  const[input, setInput] = useState({
+    email:'',
+    password:''
+    })
 
 
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
+
+    const dispatch = useDispatch();
 
 
-    // const handleLogin = async() =>{
-    //   console.log(email,password);
-    // }
 
 
-    async function handleLogin (e){
-      e.preventDefault()
-      
-      try {
-        console.log(email,password);
-        let result = await fetch('http://localhost:5000/login',{
-          method:'post',
-          body: JSON.stringify({email,password}),
-          headers:{
-            'content-Type':'application/json'
-          },
-        });
-        result = await result.json()
-        console.log(result);
-        if(result.name){
-          localStorage.setItem("user",JSON.stringify(result));
-          navigate("/")
 
-        }
-        else{
-          alert("please enter correct details")
-        }
-        
-      } catch (error) {
-        alert(error)
-        
-      }
+    const sendRequest = async() => {
+      const res = await axios.post('http://localhost:5000/api/login', {
+        email: input.email,
+        password: input.password
+      }).catch(err => alert("Enter correct details"));
+
+      const data = await res.data;
+      return data;
+    };
 
 
-    }
+  const loginUser = (e) => {
+    e.preventDefault();
+    // send http request
+    sendRequest()
+    .then(() => dispatch(authActions.login()))
+    .then(() => navigate("/"));
+  }
+    
+
   
+
 
   return (
     <div className={styles.wrapper}>
@@ -73,24 +65,24 @@ const Login = () => {
       <div className={styles.formBox}>
 
      
-      <form >
+      <form onSubmit={loginUser}>
 
         <h1>Login</h1>
 
         <div className={styles.inputBox}>
         <input 
-        type='text'   placeholder='Email'
-        value={email || ""}  onChange={(e)=>setEmail(e.target.value)}
+        type='text'   placeholder='Email'  value={input.email}  onChange={(e) => setInput({...input,email:e.target.value})} 
+    
         />
-        <FaEnvelope className={styles.icon} />
+        <FaEnvelope className={styles.icon}/>
         </div>
 
         <div className={styles.inputBox}>
         <input 
-        type={showPassword ? 'password' :'text'}  placeholder='Password'
-        value={password || ""}  onChange={(e)=>setPassword(e.target.value)}
+        type={showPassword ? 'password' :'text'}  placeholder='Password'  value={input.password}  onChange={(e) => setInput({...input,password:e.target.value})} 
+   
        />
-       <div className={styles.iconWrapper}>
+        <div className={styles.iconWrapper}>
         {showPassword ? (
           <BsEyeSlash onClick={handleShowPassword} />
         ) : (
@@ -101,12 +93,13 @@ const Login = () => {
        <FaLock className={styles.icon}/>
        </div>
 
+
        <div className={styles.rememberForgot}>
         <label><input type='checkbox'/>Remember me</label>
         <a href='#'>Forgot password?</a>
        </div>
 
-       <button  onClick={handleLogin} >Login</button>
+       <button  type='submit' >Login</button>
       
       <div className={styles.registerLink}>
       <p>Don't have an account? <Link to='/Signup'>Signup</Link></p>
