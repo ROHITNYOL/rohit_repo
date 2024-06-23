@@ -1,11 +1,11 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import  styles from "./Login.module.css";
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../store/userSlice';
 
 
 
@@ -34,7 +34,7 @@ const Login = () => {
 
 
 
-    
+
 
     const sendRequest = async() => {
       const res = await axios.post('http://localhost:5000/api/login', {
@@ -51,11 +51,9 @@ const Login = () => {
     e.preventDefault();
     // send http request
     sendRequest()
-    .then(() => dispatch(authActions.login()))
+    .then(() => dispatch(signIn()))
     .then(() => navigate("/"));
   }
-
-
     
 
   

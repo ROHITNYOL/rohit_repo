@@ -39,7 +39,7 @@ export const Navbar = () => {
 
 
     const logoutUser = () => {
-      sendLogoutReq().then(() => dispatch(authActions.logout()));
+      sendLogoutReq().then(() => dispatch(signOut()));
     };
 
 

@@ -4,7 +4,6 @@ import { getImageUrl } from "../../utils";
 
 import axios from 'axios';
 import Welcome from '../Welcome';
-import { useSelector } from 'react-redux';
 axios.defaults.withCredentials = true;
 
 

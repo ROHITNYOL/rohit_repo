@@ -26,7 +26,7 @@ mongoose.connect('mongodb://localhost:27017/meet');
  
 
 
-app.listen(5001, ()=> {
+app.listen(5000, ()=> {
     console.log("Listening to localhost 5000")
 })
 
