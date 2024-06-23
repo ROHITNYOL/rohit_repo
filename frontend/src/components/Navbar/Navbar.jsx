@@ -18,6 +18,9 @@ export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);//usestate to track menu button is opening and closing
 
 
+    const navigate = useNavigate;
+
+
     const dispatch = useDispatch();
 
   
@@ -38,6 +41,7 @@ export const Navbar = () => {
     const logoutUser = () => {
       sendLogoutReq().then(() => dispatch(authActions.logout()));
     };
+
 
 
 
