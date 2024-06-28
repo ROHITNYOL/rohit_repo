@@ -5,7 +5,7 @@ import { FaLock, FaEnvelope } from "react-icons/fa";
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { signIn } from '../store/userSlice';
+import { signIn } from '../store/userslice';
 
 
 

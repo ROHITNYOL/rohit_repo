@@ -7,7 +7,6 @@ import { Link, Navigate, useNavigate} from 'react-router-dom';
 
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../store/store';
 axios.defaults.withCredentials = true;
 
 let firstRender = true;
