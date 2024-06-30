@@ -1,19 +1,23 @@
-import React, {  useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import  styles from "./Login.module.css";
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
+import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { signIn } from '../store/userslice';
+import { useCookies } from 'react-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+
+
+
 
 
 
 
 const Login = () => {
   
-  let navigate = useNavigate()
-// navigate to home using react-router-dom
+
+
 
   const [ showPassword, setShowPassword] = useState(true);
 
@@ -23,37 +27,44 @@ const Login = () => {
 
 
 
-  const[input, setInput] = useState({
-    email:'',
-    password:''
-    })
 
 
+  const [cookies] = useCookies([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (cookies.jwt) {
+      navigate("/Home");
+    }
+  }, [cookies, navigate]);
 
-    const dispatch = useDispatch();
-
-
-
-
-
-    const sendRequest = async() => {
-      const res = await axios.post('http://localhost:5000/api/login', {
-        email: input.email,
-        password: input.password
-      }).catch(err => alert("Enter correct details"));
-
-      const data = await res.data;
-      return data;
-    };
-
-
-  const loginUser = (e) => {
-    e.preventDefault();
-    // send http request
-    sendRequest()
-    .then(() => dispatch(signIn()))
-    .then(() => navigate("/"));
-  }
+  const [values, setValues] = useState({ email: "", password: "" });
+  const generateError = (error) =>
+    toast.error(error, {
+      position: "top-right",
+    });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/login",
+        {
+          ...values,
+        },
+        { withCredentials: true }
+      );
+      if (data) {
+        if (data.errors) {
+          const { email, password } = data.errors;
+          if (email) generateError(email);
+          else if (password) generateError(password);
+        } else {
+          navigate("/Home");
+        }
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
     
 
   
@@ -65,13 +76,18 @@ const Login = () => {
       <div className={styles.formBox}>
 
      
-      <form onSubmit={loginUser}>
+      <form onSubmit={(e) => handleSubmit(e)}>
 
         <h1>Login</h1>
 
         <div className={styles.inputBox}>
         <input 
-        type='text'   placeholder='Email'  value={input.email}  onChange={(e) => setInput({...input,email:e.target.value})} 
+           type="email"
+           name="email"
+           placeholder="Email"
+           onChange={(e) =>
+             setValues({ ...values, [e.target.name]: e.target.value })
+           }
     
         />
         <FaEnvelope className={styles.icon}/>
@@ -79,7 +95,9 @@ const Login = () => {
 
         <div className={styles.inputBox}>
         <input 
-        type={showPassword ? 'password' :'text'}  placeholder='Password'  value={input.password}  onChange={(e) => setInput({...input,password:e.target.value})} 
+        type={showPassword ? 'password' :'text'}  placeholder='Password'  name="password"   onChange={(e) =>
+          setValues({ ...values, [e.target.name]: e.target.value })
+        }
    
        />
         <div className={styles.iconWrapper}>
@@ -106,6 +124,7 @@ const Login = () => {
       </div>
 
       </form>
+      <ToastContainer/>
 
       </div>
     </div>

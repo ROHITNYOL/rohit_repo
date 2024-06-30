@@ -1,15 +1,22 @@
-import React , {useEffect, useState} from 'react';
+import React , { useState, useEffect} from 'react';
 
 import styles from "./Navbar.module.css";
 import { getImageUrl } from "../../utils";
 import { IoMenu } from "react-icons/io5";
-import { Link, Navigate, useNavigate} from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import { ToastContainer, toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+
 axios.defaults.withCredentials = true;
 
-let firstRender = true;
+
+
+// import  { useContext } from "react";
+// import AuthContext from '../context/AuthContext';
+
 
 
 
@@ -17,37 +24,106 @@ export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);//usestate to track menu button is opening and closing
 
 
-    const navigate = useNavigate;
+    // const { getLoggedIn } = useContext(AuthContext);
+    // const { loggedIn } = useContext(AuthContext);
 
 
-    const dispatch = useDispatch();
+    // const sendLogoutReq = async() => {
+    //   const res = await axios.post('http://localhost:5000/api/logout', null, {
+    //     withCredentials: true
+    //   });
+    //   if(res.status == 200){
+    //     return res
+    //   }
+    //   return new Error("Unable to Logout. Please try again")
 
-  
-    const isLoggedIn = useSelector(state => state.isLoggedIn);
+     
+    // };
 
 
-    const sendLogoutReq = async() => {
-      const res = await axios.post('http://localhost:5000/api/logout', null, {
-        withCredentials: true
-      });
-      if(res.status == 200){
-        return res
+    // const logoutUser = () => {
+    //   sendLogoutReq()
+    //   .then(() => getLoggedIn())
+    // .then(() => navigate("/"));
+    // };
+
+
+   
+
+
+
+  // const [user, setUser] = useState();
+
+
+  // const refreshToken = async() => {
+  //   const res = await axios.get('http://localhost:5000/api/refresh', {
+  //     withCredentials: true,
+  //   }).catch(err => console.log(err));
+
+  //   const data = await res.data;
+  //   return data;
+  // }
+
+
+
+  // const sendRequest = async() => {
+  //   const res = await axios.get('http://localhost:5000/api/user', {
+  //     withCredentials: true,
+  //   }).catch(err => console.log(err));
+      
+  //   const data = await res.data;
+  //   return data;
+  // }
+
+  // useEffect(() => {
+  //   if(firstRender){
+  //     firstRender = false
+  //     sendRequest().then((data) => setUser(data.user))
+  //   }
+
+  //   let interval = setInterval(() => {
+  //     refreshToken().then(data => setUser(data.user))
+  //   }, 1000 * 28);
+
+  //   return () => clearInterval(interval)
+
+  // }, [])
+
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  useEffect(() => {
+    const verifyUser = async () => {
+      if (!cookies.jwt) {
+        navigate("/");
+      } else {
+        const { data } = await axios.post(
+          "http://localhost:4000",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        if (!data.status) {
+          removeCookie("jwt");
+          navigate("/");
+        } else
+          toast(`Hi ${data.user} 🦄`, {
+            theme: "dark",
+          });
       }
-      return new Error("Unable to Logout. Please try again")
     };
+    verifyUser();
+  }, [cookies, navigate, removeCookie]);
+
+  const logOut = () => {
+    removeCookie("jwt");
+    navigate("/");
+  };
 
 
-    const logoutUser = () => {
-      sendLogoutReq().then(() => dispatch(signOut()));
-    };
 
 
-
-
-
-
-
-  return (
+  return (<>
     <nav className={styles.navbar}>
     <a className={styles.title} >CalMeet</a>
     <div className={styles.menu}>
@@ -57,8 +133,7 @@ export const Navbar = () => {
         onClick={() => setMenuOpen(!menuOpen)}/>  */}
         {/* onClick={() => setMenuOpen(false)} */}
         
-          {/* {user ? */}
-          {isLoggedIn ?
+         
           <ul className={`${styles.menuItems} ${menuOpen && styles.menuOpen}`}>
             <li>
             <p><Link to='/Pricing'>Pricing</Link></p>
@@ -78,12 +153,14 @@ export const Navbar = () => {
             <li>
             <a> <Link to='/Blog'>Blog</Link></a>
             </li>
-            <button onClick={logoutUser} className={styles.logout}><Link to='/Signup' >Logout</Link></button> 
+            <button  onClick={logOut} className={styles.logout}><Link to='/Signup' >Logout</Link></button> 
             </ul>
-            :
-            <button  className={styles.Signup}><Link to ='/Signup'>Signup</Link></button>} 
+         
         
     </div>
+    
     </nav>
+    <ToastContainer/>
+    </>
   )
 }
