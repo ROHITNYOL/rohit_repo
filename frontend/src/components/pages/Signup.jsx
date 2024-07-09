@@ -19,32 +19,6 @@ const Signup = () => {
 
 
 
-  // const[input, setInput] = useState({
-  //   name:'',
-  //   email:'',
-  //   password:''
-  //   })
-
-
-  //   const sendRequest = async() => {
-  //     const res = await axios.post('http://localhost:5000/api/signup', {
-  //       name: input.name,
-  //       email: input.email,
-  //       password: input.password
-  //     }).catch(err => console.log(err));
-
-  //     const data = await res.data;
-  //     return data;
-  //   };
-
-
-  // const signInUser = (e) => {
-  //   e.preventDefault();
-  //   // send http request
-  //   sendRequest().then(() => navigate('/Login'));
-  // }
-
-
   const [cookies] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
   useEffect(() => {

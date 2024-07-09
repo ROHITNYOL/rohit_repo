@@ -11,7 +11,6 @@ import Features from "./components/menuPages/Features/Features";
 import Blog from "./components/menuPages/Blog/Blog";
 import Platform from "./components/menuPages/Platform/Platform";
 import Docs from "./components/menuPages/Docs/Docs";
-import Welcome from "./components/Welcome";
 import Home from "./components/Home";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
@@ -41,8 +40,7 @@ function App() {
         <Route path='/Home' element={<Home /> } />
        
 
-       
-        <Route path='/user' element={<Welcome /> } />
+      
         <Route path='/Pricing' element={<Pricing/>} />
         <Route path='/Platform' element={<Platform/>} />
         <Route path='/Enterprise' element={<Enterprise/>} />
