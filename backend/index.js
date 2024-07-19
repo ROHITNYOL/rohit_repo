@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const app = express();
 
-app.listen(4001, (err) => {
+app.listen(4000, (err) => {
   if (err) {
     console.log(err);
   } else {
@@ -30,7 +30,7 @@ mongoose
 
 app.use(
   cors({
-    origin: ["http://localhost:5174"],
+    origin: ["http://localhost:5173"],
     methods: ["GET", "POST"],
     credentials: true,
   })
