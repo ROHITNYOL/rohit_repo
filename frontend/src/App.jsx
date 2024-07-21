@@ -15,6 +15,8 @@ import Home from "./components/Home";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
 import "react-toastify/dist/ReactToastify.css";
+import Auth from "./components/Google/Auth";
+import CreateEvent from "./components/Google/CreateEvent";
 
 
 
@@ -40,7 +42,9 @@ function App() {
         <Route path='/Home' element={<Home /> } />
        
 
-      
+        <Route path='/Auth' element={<Auth /> } />
+
+        <Route path='/CreateEvent' element={<CreateEvent/> } />
         <Route path='/Pricing' element={<Pricing/>} />
         <Route path='/Platform' element={<Platform/>} />
         <Route path='/Enterprise' element={<Enterprise/>} />

@@ -1,0 +1,33 @@
+@import "../../../vars.css";
+
+.container {
+    margin: 0;
+    margin-left: 0;
+    padding: 60px;
+    min-height: 100vh;
+    background-color: #f7f8fc;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+    
+.card {
+    width: 400px;
+    margin: 20px;
+    /* display: flex; */
+    background-color: #ffffff;
+    border: 1px solid purple;
+    border-radius: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 40px 50px;
+    background-color: #bfc8ee;
+    border-radius: 30px 30px 0 0;
+
+}

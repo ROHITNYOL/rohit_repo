@@ -23,8 +23,6 @@ const Pricing = () => {
 
     <section className={styles.container}>
       <div className={styles.content}>
-        {/* <h2>Simply based on your needs</h2>
-        <p>CalMeet.com is a registered trademark by CalMeet.com, inc. All </p> */}
       </div>
 
       <div className={styles.card}>
