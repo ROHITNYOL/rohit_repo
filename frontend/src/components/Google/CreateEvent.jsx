@@ -1,86 +1,85 @@
 import { useState, useEffect } from "react";
+import styles from "./CreateEvent.module.css";
 
 const Googlecalendar = () => {
   const [events, setEvents] = useState([]);
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState("today"); // State to track selected time period
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState("today"); 
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     fetchEvents(selectedTimePeriod);
-    // Fetch events for the initial selected time period when component mounts
+   
   }, [selectedTimePeriod]);
-//basically to update the events being shown whenever a new event is added 
+
   useEffect(() => {
     if (refresh) {
       fetchEvents(selectedTimePeriod);
       setRefresh(false);
-    } // Fetch events when refresh state changes
+    } 
   }, [refresh]);
 
-  // Function to fetch events from Google Calendar based on time period
+  
   const fetchEvents = async (timePeriod) => {
     try {
       let timeMin, timeMax;
 
       switch (timePeriod) {
         case "today":
-          // Get current date in IST
+        
           const currentDate = new Date();
-          currentDate.setHours(0, 0, 0, 0); // Set time to 00:00:00 IST
+          currentDate.setHours(0, 0, 0, 0); 
 
-          // Construct timeMin for the start of current day in IST
           timeMin = currentDate.toISOString();
 
-          // Construct timeMax for the end of current day in IST (23:59:59)
           const todayMax = new Date(currentDate);
-          todayMax.setDate(todayMax.getDate() + 1); // Move to tomorrow
-          todayMax.setHours(0, 0, 0, 0); // Set time to 00:00:00 of tomorrow (IST)
+          todayMax.setDate(todayMax.getDate() + 1); 
+          todayMax.setHours(0, 0, 0, 0); 
           timeMax = todayMax.toISOString();
           break;
 
         case "tomorrow":
-          // Get tomorrow's date in IST
+         
           const tomorrowDate = new Date();
           tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-          tomorrowDate.setHours(0, 0, 0, 0); // Set time to 00:00:00 IST tomorrow
+          tomorrowDate.setHours(0, 0, 0, 0); 
 
-          // Construct timeMin for the start of tomorrow in IST
+         
           timeMin = tomorrowDate.toISOString();
 
-          // Construct timeMax for the end of tomorrow in IST (23:59:59)
+        
           const tomorrowMax = new Date(tomorrowDate);
-          tomorrowMax.setDate(tomorrowMax.getDate() + 1); // Move to the day after tomorrow
-          tomorrowMax.setHours(0, 0, 0, 0); // Set time to 23:59:59 of the day after tomorrow (IST)
+          tomorrowMax.setDate(tomorrowMax.getDate() + 1); 
+          tomorrowMax.setHours(0, 0, 0, 0); 
           timeMax = tomorrowMax.toISOString();
           break;
 
         case "thisweek":
-          // Get the start and end of the current week in IST (Sunday to Saturday)
+          
           const today = new Date();
           const startOfWeek = new Date(today);
-          startOfWeek.setDate(today.getDate() - today.getDay()); // Adjust for day of the week
-          startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00 IST on start of week
+          startOfWeek.setDate(today.getDate() - today.getDay()); 
+          startOfWeek.setHours(0, 0, 0, 0); 
 
           const endOfWeek = new Date(startOfWeek);
-          endOfWeek.setDate(endOfWeek.getDate() + 7); // Add 6 days to get next Saturday
-          endOfWeek.setHours(0, 0, 0, 0); // Set time to 23:59:59 of next Saturday (IST)
+          endOfWeek.setDate(endOfWeek.getDate() + 7); 
+          endOfWeek.setHours(0, 0, 0, 0); 
 
-          // Construct timeMin for the start of this week in IST
+        
           timeMin = startOfWeek.toISOString();
 
-          // Construct timeMax for the end of this week in IST (excluding events after 23:59:59 of next Saturday)
+         
           timeMax = endOfWeek.toISOString();
           break;
 
         default:
-          // Default to today's events if no valid timePeriod provided
+         
           console.warn(
             "Invalid time period provided. Defaulting to today's events."
           );
           const defaultDate = new Date();
-          defaultDate.setHours(0, 0, 0, 0); // Set time to 00:00:00 IST
+          defaultDate.setHours(0, 0, 0, 0); 
           timeMin = defaultDate.toISOString();
-          timeMax = undefined; // Fetch events indefinitely
+          timeMax = undefined; 
           break;
       }
 
@@ -104,7 +103,7 @@ const Googlecalendar = () => {
     }
   };
 
-  // Function to add an event
+  
   const handleAddEvent = async (eventData) => {
     try {
       const response = await fetch(
@@ -119,7 +118,7 @@ const Googlecalendar = () => {
       );
       console.log(JSON.stringify(eventData))
       if (response.ok) {
-        setRefresh(true); // Trigger event list refresh
+        setRefresh(true); 
       } else {
         console.error("Failed to add event:", response.statusText);
       }
@@ -128,7 +127,7 @@ const Googlecalendar = () => {
     }
   };
 
-  // Function to handle deleting an event
+  
   const handleDeleteEvent = async (eventId) => {
     try {
       const response = await fetch(
@@ -140,7 +139,7 @@ const Googlecalendar = () => {
 
       if (response.ok) {
         console.log("Event deleted successfully!");
-        const updatedEvents = events.filter((event) => event.id !== eventId); // Assuming event.id is used for comparison
+        const updatedEvents = events.filter((event) => event.id !== eventId); 
         setEvents(updatedEvents);
       } else {
         console.error("Failed to delete event:", response.statusText);
@@ -150,28 +149,28 @@ const Googlecalendar = () => {
     }
   };
 
-  // Render function for displaying events
+ 
   const renderEvents = () => {
     return (
-      <div>
+      <div >
         {events.length > 0 ? (
           events.map((event) => (
-            <div key={event.id} className="eventFetched">
-              <p className="pHead">{event.summary}</p>
-              <p className="date">
-                <span className="dateHead">Start:</span>{" "}
+            <div key={event.id} className={styles.eventFetched}>
+              <p className={styles.pHead}>{event.summary}</p>
+              <p className={styles.date}>
+                <span className={styles.dateHead}>Start:</span>{" "}
                 {new Date(event.start.dateTime).toLocaleString()}
               </p>
-              <p className="date">
-                <span className="dateHead">End:</span>{" "}
+              <p className={styles.date}>
+                <span className={styles.dateHead}>End:</span>{" "}
                 {new Date(event.end.dateTime).toLocaleString()}
               </p>
               {event.description && (
-                <p className="description">{event.description}</p>
+                <p className={styles.description}>{event.description}</p>
               )}
               <button
                 onClick={() => handleDeleteEvent(event.id)}
-                className="deleteEvent"
+                className={styles.deleteEvent}
               >
                 Delete
               </button>
@@ -185,13 +184,13 @@ const Googlecalendar = () => {
   };
 
   return (
-    <div className="container">
-      <div className="box">
-        <div className="left">
-          <h2 className="heading">Add Event</h2>
-          {/* Form for adding event */}
+    <div className={styles.container1}>
+      <div className={styles.formBox}>
+        <div className={styles.left}>
+          <h2 className={styles.heading}>Create Event</h2>
+
           <form
-            className="form"
+            className={styles.form}
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.target);
@@ -207,43 +206,39 @@ const Googlecalendar = () => {
                 end,
               });
 
-              e.target.reset(); // Reset form fields after submission
+              e.target.reset(); 
             }}
           >
-            <input
+            <input className={styles.inputBox}
               type="text"
               name="summary"
               placeholder="Event Name"
               required
-              className="input"
             />
-            <input
+            <input className={styles.inputBox}
               type="text"
               name="description"
               placeholder="Description"
-              className="input"
             />
-            <input
+            <input className={styles.inputBox}
               type="datetime-local"
               name="startDateTime"
               required
-              className="input"
             />
-            <input
+            <input className={styles.inputBox}
               type="datetime-local"
               name="endDateTime"
               required
-              className="input"
             />
-            <button type="submit" className="button">
-              Add Event
+            <button type="submit" className={styles.button}>
+              Create Event
             </button>
           </form>
         </div>
-        <div className="right">
-          <h2 className="heading">Fetched Events</h2>
-          {/* Event filtering buttons */}
-          <div className="filterButtons">
+        <div className={styles.right}>
+          <h2 className={styles.heading}>Details of Events </h2>
+      
+          <div className={styles.filterBTn}>
             <button
               className={
                 selectedTimePeriod === "today" ? "activeButton" : "button"
@@ -269,8 +264,7 @@ const Googlecalendar = () => {
               This Week's Events
             </button>
           </div>
-          {/* Display fetched events */}
-          <div className="eventsContainer">
+          <div  className={styles.event}>
             {events.length > 0 ? (
               renderEvents()
             ) : (

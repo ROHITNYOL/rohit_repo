@@ -41,7 +41,7 @@ app.use(
 );
 
 
-// Initialize OAuth2 client
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
@@ -50,13 +50,13 @@ const oauth2Client = new google.auth.OAuth2(
 console.log(process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
   process.env.REDIRECT_URL);
-//initialising a session basically to store some data in session
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,//random secret anything for our session
-    resave: false,//to not save previous data which is unneccessary for us
-    saveUninitialized: false,//not saving that prev data
-    cookie: { secure: true }, // Ensure secure cookie setting for production
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true }, 
   })
 );
 

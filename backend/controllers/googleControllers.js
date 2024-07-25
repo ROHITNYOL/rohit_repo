@@ -1,8 +1,8 @@
-const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport");
+// const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport");
 const { google } = require("googleapis");
-const calendar = google.calendar("v3");//defininng the version of the google calendar
+const calendar = google.calendar("v3");
 
-// Initialize OAuth2 client
+
 const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
@@ -11,7 +11,7 @@ const oauth2Client = new google.auth.OAuth2(
   console.log(process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
     process.env.REDIRECT_URL);
-// Function to refresh OAuth2 tokens
+
 async function refreshTokens(tokens) {
     const refreshToken = tokens.refresh_token;
     const { credentials } = await oauth2Client.refreshToken(refreshToken);
@@ -23,7 +23,7 @@ async function refreshTokens(tokens) {
   }
   
   
-  // Routes
+
   module.exports.auth = (req, res) => {
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: "offline",
@@ -33,12 +33,12 @@ async function refreshTokens(tokens) {
   };
   
   module.exports.callback = async (req, res) => {
-    const code = req.query.code;//this code basically serves like a password to get the specific tokens
+    const code = req.query.code;
     try {
       const { tokens } = await oauth2Client.getToken(code);
       oauth2Client.setCredentials(tokens);
       req.session.tokens = tokens;
-      res.redirect(process.env.Front_endURL); // Replace with your frontend URL
+      res.redirect(process.env.Front_endURL);
     } catch (error) {
       console.error("Error handling OAuth2 redirect:", error);
       res.status(500).send("Error handling OAuth2 redirect");
@@ -56,7 +56,7 @@ async function refreshTokens(tokens) {
         summary: summary,
         description: description,
         start: {
-          dateTime: start,//ensure these datetime is in isoString format
+          dateTime: start,
           timeZone: "Asia/Kolkata",
         },
         end: {
@@ -68,7 +68,7 @@ async function refreshTokens(tokens) {
       console.log("Creating event with body:", event);
   
       const response = await calendar.events.insert({
-        auth: oauth2Client,//as the insertion or deletion needs authorisation
+        auth: oauth2Client,
         calendarId: "primary",
         requestBody: event,
       });
@@ -82,16 +82,16 @@ async function refreshTokens(tokens) {
       res.status(500).json({ error: "Failed to create event" });
     }
   };
-  //to fetch the events
+
   module.exports.events  = async (req, res) => {
     try {
-      const { timeMin, timeMax } = req.query;//the encoded url that we sent from the frontend is basically the req now by using the express we get those data
+      const { timeMin, timeMax } = req.query;
       const response = await calendar.events.list({
         auth: oauth2Client,
         calendarId: "primary",
         timeMin: timeMin || new Date().toISOString(),
         timeMax: timeMax || undefined,
-        maxResults: 10,//can show as many as required here set to max 10
+        maxResults: 10,
         singleEvents: true,
         orderBy: "startTime",
       });

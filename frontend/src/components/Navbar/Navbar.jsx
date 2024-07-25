@@ -69,12 +69,12 @@ export const Navbar = () => {
             <li>
             <p><Link to='/Pricing'>Pricing</Link></p>
             </li>
-            <li>
+            {/* <li>
             <a> <Link to='/Platform'>Platform</Link></a>
             </li>
             <li>
             <a> <Link to='/Enterprise'>Enterprise</Link></a>
-            </li>
+            </li> */}
             <li>
             <a> <Link to='/Features'>Features</Link></a>
             </li>
@@ -85,6 +85,7 @@ export const Navbar = () => {
             <a> <Link to='/Blog'>Blog</Link></a>
             </li>
             <button  onClick={logOut} className={styles.logout}><Link to='/Signup' >Logout</Link></button> 
+            <button   className={styles.logout}><Link to='/Auth' >Events</Link></button>
             </ul>
          
         
